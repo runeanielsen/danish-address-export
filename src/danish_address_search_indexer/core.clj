@@ -1,4 +1,4 @@
 (ns danish-address-search-indexer.core)
 
-(defn -main [& args]
+(defn -main []
   (println "Started"))
