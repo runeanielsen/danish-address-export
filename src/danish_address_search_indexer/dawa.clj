@@ -7,6 +7,7 @@
 (def dawa-base-url "https://api.dataforsyningen.dk/replikering")
 
 (declare parse-response)
+(declare handle-streaming-response)
 
 (defn get-latest-transaction-id
   "Gets the latest transaction id from DAWA."
@@ -19,13 +20,18 @@
      :timestamp (->> result :tidspunkt instant/read-instant-timestamp)}))
 
 (defn get-all-unit-addresses
-  "Retrieves all unit addresses from DAWA."
-  [transaction-id yield]
+  "Retrieves all unit-addresses from DAWA."
+  [transaction-id f]
   (let [url (str dawa-base-url "/udtraek?entitet=adresse&ndjson&txid=" transaction-id)
         response (client/get url {:as :reader})]
-    (with-open [reader (:body response)]
-      (doseq [line (line-seq reader)]
-        (yield [(json/parse-string line true)])))))
+    (handle-streaming-response response f)))
+
+(defn get-all-access-addresses
+  "Retrieves all access-addresses from DAWA."
+  [transaction-id f]
+  (let [url (str dawa-base-url "/udtraek?entitet=adgangsadresse&ndjson&txid=" transaction-id)
+        response (client/get url {:as :reader})]
+    (handle-streaming-response response f)))
 
 (defn get-post-codes
   "Retrieves address post-codes from DAWA."
@@ -38,6 +44,12 @@
   [transaction-id]
   (->> (client/get (str dawa-base-url "/udtraek?entitet=navngivenvej&ndjson&txid=", transaction-id))
        parse-response))
+
+(defn- handle-streaming-response
+  [response f]
+  (with-open [reader (:body response)]
+    (doseq [line (line-seq reader)]
+      (f (json/parse-string line true)))))
 
 (defn- parse-response [http-response]
   (->> http-response
