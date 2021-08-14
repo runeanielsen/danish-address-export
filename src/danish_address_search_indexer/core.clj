@@ -6,7 +6,7 @@
 (declare map-unit-addresses)
 
 (defn -main []
-  (map-unit-addresses))
+  (map-unit-addresses 500))
 
 (defn start-import
   "Starts the dawa import"
@@ -25,15 +25,16 @@
          :updated (:ændret unit-address)}))
 
 (defn map-unit-addresses
-  []
+  [batch-size]
   (let [addresses (atom [])
         imported-count (atom 0)]
     (dawa/get-all-unit-addresses
      0
      #(doseq [elem %]
         (swap! addresses conj (map-unit elem))
-        (when (= (count @addresses) 500)
-          (swap! imported-count + 500)
-          (reset! addresses []))))
+        (when (= (count @addresses) batch-size)
+          (swap! imported-count + batch-size)
+          (reset! addresses [])
+          (println "Imported: " @imported-count))))
     (swap! imported-count + (count @addresses))
     (println "Total imported: " @imported-count)))

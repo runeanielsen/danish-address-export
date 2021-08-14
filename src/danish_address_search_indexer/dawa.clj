@@ -21,11 +21,11 @@
 (defn get-all-unit-addresses
   "Retrieves all unit addresses from DAWA."
   [transaction-id yield]
-  (let [url (str dawa-base-url "/udtraek?entitet=adresse&txid=" transaction-id)
+  (let [url (str dawa-base-url "/udtraek?entitet=adresse&ndjson&txid=" transaction-id)
         response (client/get url {:as :reader})]
     (with-open [reader (:body response)]
-      (let [unit-addresses (json/parse-stream reader true)]
-        (doall (yield unit-addresses))))))
+      (doseq [line (line-seq reader)]
+        (yield [(json/parse-string line true)])))))
 
 (defn get-post-codes
   "Retrieves address post-codes from DAWA."
