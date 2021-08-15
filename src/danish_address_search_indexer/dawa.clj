@@ -50,8 +50,7 @@
     1 :active
     2 :canceled
     3 :pending
-    4 :discontinued
-    :not-valid))
+    4 :discontinued))
 
 (defn map-unit-address
   "Maps DAWA unit-address to domain representation."
