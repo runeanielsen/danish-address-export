@@ -6,8 +6,8 @@
 
 (def dawa-base-url "https://api.dataforsyningen.dk/replikering")
 
-(declare parse-response)
-(declare handle-streaming-response)
+(declare parse-jsonline-response)
+(declare stream-jsonline-response)
 
 (defn get-latest-transaction-id
   "Gets the latest transaction id from DAWA."
@@ -22,36 +22,35 @@
 (defn get-all-unit-addresses
   "Retrieves all unit-addresses from DAWA."
   [transaction-id f]
-  (let [url (str dawa-base-url "/udtraek?entitet=adresse&ndjson&txid=" transaction-id)
-        response (client/get url {:as :reader})]
-    (handle-streaming-response response f)))
+  (let [url (str dawa-base-url "/udtraek?entitet=adresse&ndjson&txid=" transaction-id)]
+    (stream-jsonline-response url f)))
 
 (defn get-all-access-addresses
   "Retrieves all access-addresses from DAWA."
   [transaction-id f]
-  (let [url (str dawa-base-url "/udtraek?entitet=adgangsadresse&ndjson&txid=" transaction-id)
-        response (client/get url {:as :reader})]
-    (handle-streaming-response response f)))
+  (let [url (str dawa-base-url "/udtraek?entitet=adgangsadresse&ndjson&txid=" transaction-id)]
+    (stream-jsonline-response url f)))
 
 (defn get-post-codes
   "Retrieves address post-codes from DAWA."
   [transaction-id]
   (->> (client/get (str dawa-base-url "/udtraek?entitet=postnummer&ndjson&txid=" transaction-id))
-       parse-response))
+       parse-jsonline-response))
 
 (defn get-roads
   "Gets roads from DAWA."
   [transaction-id]
   (->> (client/get (str dawa-base-url "/udtraek?entitet=navngivenvej&ndjson&txid=", transaction-id))
-       parse-response))
+       parse-jsonline-response))
 
-(defn- handle-streaming-response
-  [response f]
-  (with-open [reader (:body response)]
-    (doseq [line (line-seq reader)]
-      (f (json/parse-string line true)))))
+(defn- stream-jsonline-response
+  [url f]
+  (let [response (client/get url {:as :reader})]
+    (with-open [reader (:body response)]
+      (doseq [line (line-seq reader)]
+        (f (json/parse-string line true))))))
 
-(defn- parse-response [http-response]
+(defn- parse-jsonline-response [http-response]
   (->> http-response
        :body
        (string/split-lines)
