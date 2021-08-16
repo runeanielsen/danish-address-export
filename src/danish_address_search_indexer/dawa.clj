@@ -55,32 +55,32 @@
 (defn map-unit-address
   "Maps DAWA unit-address to domain representation."
   [unit-address]
-  (into {:access-address-id (:adgangsadresseid unit-address)
-         :status (map-status (:status unit-address))
-         :floor (:etage unit-address)
-         :door (:dør unit-address)
-         :id (:id unit-address)
-         :created (:oprettet unit-address)
-         :updated (:ændret unit-address)}))
+  {:access-address-id (:adgangsadresseid unit-address)
+   :status (map-status (:status unit-address))
+   :floor (:etage unit-address)
+   :door (:dør unit-address)
+   :id (:id unit-address)
+   :created (:oprettet unit-address)
+   :updated (:ændret unit-address)})
 
 (defn map-access-address
   "Maps DAWA access-address to domain representation."
   [access-address]
-  (into {:access-address-id (:adgangsadresseid access-address)
-         :status (map-status (:status access-address))
-         :id (:id access-address)
-         :road-code (:vejkode access-address)
-         :house-number (:husnr access-address)
-         :post-district-code (:postnr access-address)
-         :east-coordinate (:etrs89koordinat_øst access-address)
-         :north-coordinate (:etrs89koordinat_nord access-address)
-         :location-updated (:adressepunktændringsdato access-address)
-         :town-name (:supplerendebynavn access-address)
-         :plot-id (:matrikelnr access-address)
-         :road-id (:navngivenvej_id access-address)
-         :municipal-code (:kommunekode access-address)
-         :created (:oprettet access-address)
-         :updated (:ændret access-address)}))
+  {:access-address-id (:adgangsadresseid access-address)
+   :status (map-status (:status access-address))
+   :id (:id access-address)
+   :road-code (:vejkode access-address)
+   :house-number (:husnr access-address)
+   :post-district-code (:postnr access-address)
+   :east-coordinate (:etrs89koordinat_øst access-address)
+   :north-coordinate (:etrs89koordinat_nord access-address)
+   :location-updated (:adressepunktændringsdato access-address)
+   :town-name (:supplerendebynavn access-address)
+   :plot-id (:matrikelnr access-address)
+   :road-id (:navngivenvej_id access-address)
+   :municipal-code (:kommunekode access-address)
+   :created (:oprettet access-address)
+   :updated (:ændret access-address)})
 
 (defn- stream-jsonline-response
   [url f]
