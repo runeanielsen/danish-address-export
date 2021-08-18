@@ -52,35 +52,47 @@
     3 :pending
     4 :discontinued))
 
+(defn map-post-code
+  "Maps DAWA post-code to domain representation."
+  [dawa-post-code]
+  {:id (:id dawa-post-code)
+   :name (:navn dawa-post-code)})
+
+(defn map-road
+  "Maps DAWA road to domain representation."
+  [dawa-road]
+  {:id (:id dawa-road)
+   :name (:navn dawa-road)})
+
 (defn map-unit-address
   "Maps DAWA unit-address to domain representation."
-  [unit-address]
-  {:access-address-id (:adgangsadresseid unit-address)
-   :status (map-status (:status unit-address))
-   :floor (:etage unit-address)
-   :door (:dør unit-address)
-   :id (:id unit-address)
-   :created (:oprettet unit-address)
-   :updated (:ændret unit-address)})
+  [dawa-unit-address]
+  {:access-address-id (:adgangsadresseid dawa-unit-address)
+   :status (map-status (:status dawa-unit-address))
+   :floor (:etage dawa-unit-address)
+   :door (:dør dawa-unit-address)
+   :id (:id dawa-unit-address)
+   :created (:oprettet dawa-unit-address)
+   :updated (:ændret dawa-unit-address)})
 
 (defn map-access-address
   "Maps DAWA access-address to domain representation."
-  [access-address]
-  {:access-address-id (:adgangsadresseid access-address)
-   :status (map-status (:status access-address))
-   :id (:id access-address)
-   :road-code (:vejkode access-address)
-   :house-number (:husnr access-address)
-   :post-district-code (:postnr access-address)
-   :east-coordinate (:etrs89koordinat_øst access-address)
-   :north-coordinate (:etrs89koordinat_nord access-address)
-   :location-updated (:adressepunktændringsdato access-address)
-   :town-name (:supplerendebynavn access-address)
-   :plot-id (:matrikelnr access-address)
-   :road-id (:navngivenvej_id access-address)
-   :municipal-code (:kommunekode access-address)
-   :created (:oprettet access-address)
-   :updated (:ændret access-address)})
+  [dawa-access-address]
+  {:access-address-id (:adgangsadresseid dawa-access-address)
+   :status (map-status (:status dawa-access-address))
+   :id (:id dawa-access-address)
+   :road-code (:vejkode dawa-access-address)
+   :house-number (:husnr dawa-access-address)
+   :post-district-code (:postnr dawa-access-address)
+   :east-coordinate (:etrs89koordinat_øst dawa-access-address)
+   :north-coordinate (:etrs89koordinat_nord dawa-access-address)
+   :location-updated (:adressepunktændringsdato dawa-access-address)
+   :town-name (:supplerendebynavn dawa-access-address)
+   :plot-id (:matrikelnr dawa-access-address)
+   :road-id (:navngivenvej_id dawa-access-address)
+   :municipal-code (:kommunekode dawa-access-address)
+   :created (:oprettet dawa-access-address)
+   :updated (:ændret dawa-access-address)})
 
 (defn- stream-jsonline-response
   [url f]
