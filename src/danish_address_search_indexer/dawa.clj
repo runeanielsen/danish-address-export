@@ -12,11 +12,10 @@
 (defn get-latest-transaction-id
   "Gets the latest transaction id from DAWA."
   []
-  (let [result
-        (-> (client/get (str dawa-base-url "/senestetransaktion"))
-            :body
-            (json/parse-string true))]
-    {:transaction-id (:txid result)
+  (let [result (-> (client/get (str dawa-base-url "/senestetransaktion"))
+                   :body
+                   (json/parse-string true))]
+    {:id (:txid result)
      :timestamp (->> result :tidspunkt instant/read-instant-timestamp)}))
 
 (defn get-all-unit-addresses
