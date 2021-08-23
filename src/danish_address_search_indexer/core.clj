@@ -3,7 +3,7 @@
             [cheshire.core :as json]
             [clojure.java.io :as io]))
 
-(defn import-access-addresses
+(defn export-access-addresses
   [transaction-id export-path]
   (dawa/get-all-access-addresses
    transaction-id
@@ -12,7 +12,7 @@
        (with-open [w (io/writer (str export-path "/access-addresses.json") :append true)]
          (.write w (str (json/generate-string mapped-address) "\n")))))))
 
-(defn import-unit-addresses
+(defn export-unit-addresses
   [transaction-id export-path]
   (dawa/get-all-unit-addresses
    transaction-id
@@ -25,10 +25,10 @@
   [export-path]
   (let [latest-transaction (dawa/get-latest-transaction-id)
         transaction-id (:id latest-transaction)
-        import-aa-future (future (import-access-addresses transaction-id export-path))
-        import-ua-future (future (import-unit-addresses transaction-id export-path))]
-    @import-aa-future
-    @import-ua-future))
+        export-aa-future (future (export-access-addresses transaction-id export-path))
+        export-ua-future (future (export-unit-addresses transaction-id export-path))]
+    @export-aa-future
+    @export-ua-future))
 
 (defn -main [& args]
   (let [[export-path] args]
