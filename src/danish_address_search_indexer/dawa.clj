@@ -20,15 +20,15 @@
 
 (defn get-all-unit-addresses
   "Retrieves all unit-addresses from DAWA."
-  [transaction-id f]
+  [transaction-id callback]
   (let [url (str dawa-base-url "/udtraek?entitet=adresse&ndjson&txid=" transaction-id)]
-    (stream-jsonline-response url f)))
+    (stream-jsonline-response url callback)))
 
 (defn get-all-access-addresses
   "Retrieves all access-addresses from DAWA."
-  [transaction-id f]
+  [transaction-id callback]
   (let [url (str dawa-base-url "/udtraek?entitet=adgangsadresse&ndjson&txid=" transaction-id)]
-    (stream-jsonline-response url f)))
+    (stream-jsonline-response url callback)))
 
 (defn get-post-codes
   "Retrieves address post-codes from DAWA."
@@ -94,11 +94,11 @@
    :updated (:ændret dawa-access-address)})
 
 (defn- stream-jsonline-response
-  [url f]
+  [url callback]
   (let [response (client/get url {:as :reader})]
     (with-open [reader (:body response)]
       (doseq [line (line-seq reader)]
-        (f (json/parse-string line true))))))
+        (callback (json/parse-string line true))))))
 
 (defn- parse-jsonline-response [http-response]
   (->> http-response
