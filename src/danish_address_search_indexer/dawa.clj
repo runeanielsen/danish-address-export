@@ -54,7 +54,7 @@
 (defn map-post-code
   "Maps DAWA post-code to domain representation."
   [dawa-post-code]
-  {:id (:id dawa-post-code)
+  {:id (:nr dawa-post-code)
    :name (:navn dawa-post-code)})
 
 (defn map-road
