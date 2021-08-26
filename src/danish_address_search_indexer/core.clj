@@ -5,34 +5,34 @@
 
 (defn export-access-addresses
   [transaction-id export-path]
-  (dawa/get-all-access-addresses
-   transaction-id
-   (fn [dawa-address]
-     (let [mapped-address (dawa/map-access-address dawa-address)]
-       (with-open [w (io/writer (str export-path "/access-addresses.json") :append true)]
+  (with-open [w (io/writer (str export-path "/access-addresses.json") :append true)]
+    (dawa/get-all-access-addresses
+     transaction-id
+     (fn [dawa-address]
+       (let [mapped-address (dawa/map-access-address dawa-address)]
          (.write w (str (json/generate-string mapped-address) "\n")))))))
 
 (defn export-unit-addresses
   [transaction-id export-path]
-  (dawa/get-all-unit-addresses
-   transaction-id
-   (fn [dawa-address]
-     (let [mapped-address (dawa/map-unit-address dawa-address)]
-       (with-open [w (io/writer (str export-path "/unit-addresses.json") :append true)]
+  (with-open [w (io/writer (str export-path "/unit-addresses.json") :append true)]
+    (dawa/get-all-unit-addresses
+     transaction-id
+     (fn [dawa-address]
+       (let [mapped-address (dawa/map-unit-address dawa-address)]
          (.write w (str (json/generate-string mapped-address) "\n")))))))
 
 (defn export-post-codes
   [transaction-id export-path]
   (let [mapped-post-codes (map dawa/map-post-code (dawa/get-post-codes transaction-id))]
-    (doseq [post-code mapped-post-codes]
-      (with-open [w (io/writer (str export-path "/post-codes.json") :append true)]
+    (with-open [w (io/writer (str export-path "/post-codes.json") :append true)]
+      (doseq [post-code mapped-post-codes]
         (.write w (str (json/generate-string post-code) "\n"))))))
 
 (defn export-road
   [transaction-id export-path]
   (let [mapped-roads (map dawa/map-road (dawa/get-roads transaction-id))]
-    (doseq [roads mapped-roads]
-      (with-open [w (io/writer (str export-path "/roads.json") :append true)]
+    (with-open [w (io/writer (str export-path "/roads.json") :append true)]
+      (doseq [roads mapped-roads]
         (.write w (str (json/generate-string roads) "\n"))))))
 
 (defn start-bulk-import
