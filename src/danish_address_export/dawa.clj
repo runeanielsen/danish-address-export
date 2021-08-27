@@ -1,4 +1,4 @@
-(ns danish-address-search-indexer.dawa
+(ns danish-address-export.dawa
   (:require [clj-http.client :as client]
             [cheshire.core :as json]
             [clojure.string :as string]

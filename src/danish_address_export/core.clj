@@ -1,5 +1,5 @@
-(ns danish-address-search-indexer.core
-  (:require [danish-address-search-indexer.dawa :as dawa]
+(ns danish-address-export.core
+  (:require [danish-address-export.dawa :as dawa]
             [cheshire.core :as json]
             [clojure.java.io :as io]))
 

@@ -1,3 +1,9 @@
-# Danish address search indexer
+# Danish address export
 
-The Danish address search indexer retrieves the latest addresses from DAWA and inserts it into the Typesense search engine.
+Downloads danish access-addresses, unit-addresses, post-codes, roads and maps them to english and then exports them as jsonline files to the specified folder.
+
+# How to use
+
+```
+java -jar danish-address-export.jar <destination-folder>
+```
