@@ -1,9 +1,17 @@
 # Danish address export
 
-Downloads danish access-addresses, unit-addresses, post-codes, roads and maps them to english and then exports them as jsonline files to the specified folder.
+Downloads danish access-addresses, unit-addresses, post-codes, roads. Doing the download the application maps them to english and then exports them as jsonline files to the specified folder.
 
-# How to use
+## Build
 
+Requires `clojure` installed on the machine.
+
+```sh
+clojure -M:uberdeps
 ```
-java -jar danish-address-export.jar <destination-folder>
+
+# Run build
+
+```sh
+java -cp target/danish-address-export.jar clojure.main -m danish-address-export.core <destination-folder>
 ```
