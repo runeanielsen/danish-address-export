@@ -2,4 +2,7 @@
  :deps {org.clojure/clojure {:mvn/version "1.10.3"}
         clj-http/clj-http {:mvn/version "3.12.3"}
         cheshire/cheshire {:mvn/version "5.10.1"}}
- :aliases {:run {:main-opts ["-m" "danish-address-export.core"]}}}
+ :aliases {:run {:main-opts ["-m" "danish-address-export.core"]}
+           :uberdeps {:replace-deps {uberdeps/uberdeps {:mvn/version "1.0.4"}}
+                      :replace-paths []
+                      :main-opts ["-m" "uberdeps.uberjar"]}}}
