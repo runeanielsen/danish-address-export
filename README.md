@@ -10,7 +10,7 @@ Requires `clojure` installed on the machine.
 clojure -M:uberdeps
 ```
 
-# Run build
+## Run build
 
 ```sh
 java -cp target/danish-address-export.jar clojure.main -m danish-address-export.core <destination-folder>
