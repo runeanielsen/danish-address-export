@@ -1,7 +1,8 @@
 (ns danish-address-export.core
   (:require [danish-address-export.dawa :as dawa]
             [cheshire.core :as json]
-            [clojure.java.io :as io]))
+            [clojure.java.io :as io]
+            [clojure.string :as str]))
 
 (defn export-access-addresses
   [transaction-id export-path]
@@ -49,7 +50,10 @@
 
 (defn -main [& args]
   (let [[export-path] args]
-    (println "Starting bulk import.")
-    (start-bulk-import export-path)
-    (println "Finished import.")
-    (shutdown-agents)))
+    (if (str/blank? export-path)
+      (println "Export path cannot be blank.")
+      (do
+        (println "Starting bulk import.")
+        (start-bulk-import export-path)
+        (println "Finished import.")
+        (shutdown-agents)))))
